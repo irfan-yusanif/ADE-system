@@ -1,0 +1,12 @@
+﻿@model ADE_ManagementSystem.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    @Html.Action("Details")
+    @Html.ActionLink("Change your password", "ChangePassword")
+</div>
