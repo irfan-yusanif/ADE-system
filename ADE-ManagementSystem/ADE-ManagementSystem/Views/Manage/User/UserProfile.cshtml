@@ -3,7 +3,7 @@
 @{
     Layout = null;
     string userProfileLink = ProjectConstants.UserProfileLink + Model.Id + ".jpg";
-
+    string defaultUserProfileLink = ProjectConstants.DefaultUserProfileLink;
 }
 
 <div class="row">
@@ -11,7 +11,14 @@
         <div class="well well-sm">
             <div class="row">
                 <div class="col-sm-6 col-md-4">
-                    <img src="@userProfileLink" alt="" class="img-rounded img-responsive"  />
+                    @if (File.Exists(Server.MapPath(userProfileLink)))
+                    {
+                        <img src="@userProfileLink" alt="No dp" class="img-rounded img-responsive"/>
+                    }
+                    else
+                    {
+                        <img src="@defaultUserProfileLink" alt="No dp" class="img-rounded img-responsive" />
+                    }
                 </div>
                 <div class="col-sm-6 col-md-8">
                     <h4>
