@@ -1,36 +1,48 @@
-﻿@model ADE_ManagementSystem.Models.AspNetUser
+﻿@using ADE_ManagementSystem.Global
+@model ADE_ManagementSystem.Models.AspNetUser
 @{
     Layout = null;
+    string userProfileLink = ProjectConstants.UserProfileLink + Model.Id + ".jpg";
+
 }
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="well well-sm">
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <img src="@userProfileLink" alt="" class="img-rounded img-responsive"  />
+                </div>
+                <div class="col-sm-6 col-md-8">
+                    <h4>
+                        @Html.DisplayFor(model => model.FullName)
+                    </h4>
+                    @*<small>
+                        <cite title="@Html.DisplayFor(model => model.UserName)">
+                            @Html.DisplayFor(model => model.UserName)
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-
-    </dl>
+                        </cite>
+                    </small>*@
+                    <p>
+                        <i class="glyphicon glyphicon-envelope"></i>  @Html.DisplayFor(model => model.Email)
+                        <br />
+                        
+                    </p>
+                    <!-- Split button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary">
+                            Edit
+                        </button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span><span class="sr-only">Edit</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Edit Profile", "Edit", new { id = Model.Id })</li>
+                            <li>@Html.ActionLink("Change password", "ChangePassword")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-</p>

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using ADE_ManagementSystem.Global;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -99,6 +102,60 @@ namespace ADE_ManagementSystem.Controllers
                 return RedirectToAction("Index");
             }
             return View("User/Edit",aspNetUser);
+        }
+
+        private bool IsImage(HttpPostedFileBase file)
+        {
+            if (file.ContentType.Contains("image"))
+            {
+                return true;
+            }
+
+            string[] formats = new string[] { ".jpg", ".png", ".gif", ".jpeg" }; // add more if u like...
+            
+            return formats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static Image resizeImage(Image imgToResize, Size size)
+        {
+            return (Image)(new Bitmap(imgToResize, size));
+        }
+
+
+        public ActionResult SaveImage()
+        {
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                HttpPostedFileBase file = Request.Files[i];
+                if (IsImage(file))
+                {
+                    string extension = Path.GetExtension(file.FileName); //todo change extension to jpg
+                    string newFileName = ProjectConstants.UserProfileLink + User.Identity.GetUserId() + extension;
+                    file.SaveAs(Server.MapPath(@"~" + newFileName));
+
+                    if (extension != ".jpg")
+                    {
+                        FileInfo f = new FileInfo(Server.MapPath(newFileName));
+                        f.MoveTo(Path.ChangeExtension(Server.MapPath(@"~" + newFileName), ".jpg"));
+                        //if (System.IO.File.Exists(Server.MapPath(newFileName)))
+                        //    System.IO.File.Move(Server.MapPath(newFileName), Path.ChangeExtension(Server.MapPath(newFileName), ".jpg"));
+                    }
+                    System.Drawing.Image imgg = System.Drawing.Image.FromFile(System.Web.HttpContext.Current.Server.MapPath(newFileName));
+
+                    var resizedImage = resizeImage(imgg, new Size(300, 300));
+                    var i2 = new Bitmap(resizedImage);
+                    imgg.Dispose();
+                    i2.Save(System.Web.HttpContext.Current.Server.MapPath(@"~" + newFileName));
+                    i2.Dispose();
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Image is not in valid format";
+                    return View("User/Edit");
+                }
+            }
+            //ViewBag.StatusMessage = "Profile pic successfully updated";
+            return RedirectToAction("Index");
         }
 
         #endregion
