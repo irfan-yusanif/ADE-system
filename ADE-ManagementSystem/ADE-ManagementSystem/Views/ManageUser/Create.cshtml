@@ -1,5 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@model ADE_ManagementSystem.Models.AspNetUser
+@model ADE_ManagementSystem.Models.User.UserViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -41,6 +41,17 @@
             </div>
         </div>
             
+        <div class="form-group">
+            <label class="control-label col-md-2">User Role</label>
+            <div class="col-md-10 " >
+                <select name="UserRole" class="form-control">
+                    <option value="">Select Role</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Admin Girl">Admin Girl</option>
+                    <option value="Appraiser">Appraiser</option>
+                </select>
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

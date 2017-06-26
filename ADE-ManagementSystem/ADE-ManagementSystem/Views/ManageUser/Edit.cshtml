@@ -1,4 +1,4 @@
-﻿@model ADE_ManagementSystem.Models.AspNetUser
+﻿@model ADE_ManagementSystem.Models.User.UserViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -105,6 +105,32 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @{
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(new SelectListItem
+            {
+                Text = "Admin",
+                Value = "Admin"
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "Admin Girl",
+                Value = "Admin Girl"
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "Appraiser",
+                Value = "Appraiser"
+            });
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserRole, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.UserRole, listItems, "select role",  new {@class = "form-control", required = "required"})
+                @Html.ValidationMessageFor(model => model.UserRole, "", new {@class = "text-danger"})
             </div>
         </div>
 

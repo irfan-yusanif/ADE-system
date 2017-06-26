@@ -135,8 +135,20 @@ namespace ADE_ManagementSystem.Controllers
 
                     if (extension != ".jpg")
                     {
+                        var oldDpLink = ProjectConstants.UserProfileLink + User.Identity.GetUserId() + ".jpg";
+                        if (System.IO.File.Exists(Server.MapPath(oldDpLink))) //delete previous dp with .jpg
+                        {
+                            System.IO.File.Delete(Server.MapPath(oldDpLink));
+                        }
                         FileInfo f = new FileInfo(Server.MapPath(newFileName));
                         f.MoveTo(Path.ChangeExtension(Server.MapPath(@"~" + newFileName), ".jpg"));
+
+                        if (System.IO.File.Exists(Server.MapPath(newFileName))) //delete dp without .jpg
+                        {
+                            System.IO.File.Delete(Server.MapPath(newFileName));
+                        }
+
+                        newFileName = ProjectConstants.UserProfileLink + User.Identity.GetUserId() + ".jpg";
                         //if (System.IO.File.Exists(Server.MapPath(newFileName)))
                         //    System.IO.File.Move(Server.MapPath(newFileName), Path.ChangeExtension(Server.MapPath(newFileName), ".jpg"));
                     }

@@ -5,10 +5,15 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ADE_ManagementSystem.Models;
+using ADE_ManagementSystem.Models.User;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -20,15 +25,17 @@ namespace ADE_ManagementSystem.Controllers.Admin
         private Entities db = new Entities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly IMapper _mapper;
 
         public ManageUserController()
         {
         }
 
-        public ManageUserController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageUserController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IMapper mapper)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _mapper = mapper;
         }
 
         public ApplicationSignInManager SignInManager
@@ -74,7 +81,20 @@ namespace ADE_ManagementSystem.Controllers.Admin
         // GET: ManageUser
         public async Task<ActionResult> Index()
         {
-            return View(await db.AspNetUsers.Where(x=>x.AspNetRoles.Count(y=>y.Name == "Admin") == 0).ToListAsync());
+            var loginUserId = User.Identity.GetUserId();
+            //var data = await db.AspNetUsers.Where(x => x.AspNetRoles.Count(y => y.Id != "Admin") == 0).ToListAsync();
+            var data = from user in db.AspNetUsers
+                where user.Id != loginUserId
+                select new UserViewModel()
+                {
+                    FullName = user.FullName,
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    UserRole =
+                        user.AspNetRoles.FirstOrDefault() == null ? "N/A" : user.AspNetRoles.FirstOrDefault().Name
+                };
+            return View(data);
         }
 
         // GET: ManageUser/Details/5
@@ -103,7 +123,7 @@ namespace ADE_ManagementSystem.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FullName,ImageExtension")] AspNetUser aspNetUser)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FullName,ImageExtension,UserRole")] UserViewModel aspNetUser)
         {
             if (ModelState.IsValid)
             {
@@ -114,6 +134,7 @@ namespace ADE_ManagementSystem.Controllers.Admin
                 var result = await UserManager.CreateAsync(user, "123");
                 if (result.Succeeded)
                 {
+                    await UserManager.AddToRoleAsync(user.Id, aspNetUser.UserRole);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -127,7 +148,7 @@ namespace ADE_ManagementSystem.Controllers.Admin
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    var dbUser =await db.AspNetUsers.FirstOrDefaultAsync(x => x.UserName.Equals(aspNetUser.Email));
+                    var dbUser = await db.AspNetUsers.FirstOrDefaultAsync(x => x.UserName.Equals(aspNetUser.Email));
                     dbUser.FullName = aspNetUser.FullName;
                     await db.SaveChangesAsync();
 
@@ -154,7 +175,13 @@ namespace ADE_ManagementSystem.Controllers.Admin
             {
                 return HttpNotFound();
             }
-            return View(aspNetUser);
+            UserViewModel userViewModel = Mapper.Map<UserViewModel>(aspNetUser);
+            var userRole = aspNetUser.AspNetRoles.FirstOrDefault();
+            if (userRole != null)
+            {
+                userViewModel.UserRole = userRole.Name;
+            }
+            return View(userViewModel);
         }
 
         // POST: ManageUser/Edit/5
@@ -162,15 +189,39 @@ namespace ADE_ManagementSystem.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FullName,ImageExtension")] AspNetUser aspNetUser)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FullName,ImageExtension,UserRole")] UserViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
+                AspNetUser aspNetUser = Mapper.Map<AspNetUser>(userViewModel);
+
+                var query = (from user in db.AspNetUsers
+                    where user.Id == userViewModel.Id
+                    select new
+                    {
+                        Role = user.AspNetRoles.FirstOrDefault()
+                    }).FirstOrDefault();
+
+                string oldRoleName = null;
+                if (query != null)
+                {
+                    oldRoleName = query.Role.Name;
+                }
+                
+                var userIdentity = (ClaimsIdentity)User.Identity;
+                
+                if (oldRoleName != userViewModel.UserRole)
+                {
+                    await UserManager.RemoveFromRoleAsync(aspNetUser.Id, oldRoleName);
+                    await UserManager.AddToRoleAsync(aspNetUser.Id, userViewModel.UserRole);
+                }
                 db.Entry(aspNetUser).State = EntityState.Modified;
+
                 await db.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
-            return View(aspNetUser);
+            return View(userViewModel);
         }
 
         // GET: ManageUser/Delete/5
