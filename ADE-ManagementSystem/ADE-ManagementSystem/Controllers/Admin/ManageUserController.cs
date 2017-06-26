@@ -74,7 +74,7 @@ namespace ADE_ManagementSystem.Controllers.Admin
         // GET: ManageUser
         public async Task<ActionResult> Index()
         {
-            return View(await db.AspNetUsers.ToListAsync());
+            return View(await db.AspNetUsers.Where(x=>x.AspNetRoles.Count(y=>y.Name == "Admin") == 0).ToListAsync());
         }
 
         // GET: ManageUser/Details/5
@@ -127,7 +127,7 @@ namespace ADE_ManagementSystem.Controllers.Admin
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    var dbUser =await db.AspNetUsers.FirstAsync(x => x.UserName.Equals(aspNetUser.UserName));
+                    var dbUser =await db.AspNetUsers.FirstOrDefaultAsync(x => x.UserName.Equals(aspNetUser.Email));
                     dbUser.FullName = aspNetUser.FullName;
                     await db.SaveChangesAsync();
 

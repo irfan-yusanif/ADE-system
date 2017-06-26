@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -17,6 +18,8 @@ namespace ADE_ManagementSystem.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        Entities db = new Entities();
 
         public AccountController()
         {
@@ -79,6 +82,8 @@ namespace ADE_ManagementSystem.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    AspNetUser user = await db.AspNetUsers.FirstOrDefaultAsync(x => x.Email.Equals(model.Email));
+                    Session["User"] = user;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

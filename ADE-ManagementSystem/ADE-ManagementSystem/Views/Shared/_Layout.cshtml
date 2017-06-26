@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using ADE_ManagementSystem.Models
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,30 +32,43 @@
                 </button>
                 <a class="navbar-brand" href="~/">
                     @*<i class="fa fa-cubes"></i>*@
-                <img width="30" src="~/images/ADE-Logo.png" /> ADE Management System
-                @*Final1*@
-            </a>
+                    <img width="30" src="~/images/ADE-Logo.png" /> ADE Management System
+                    @*Final1*@
+                </a>
                 @*@Html.ActionLink("ADE Management System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        if (Roles.IsUserInRole(User.Identity.GetUserName(), "Admin"))
+                        AspNetUser userInfo = (AspNetUser)Session["User"];
+                        if (userInfo != null)
                         {
-                            <p>yes</p>
+                            if (userInfo.AspNetRoles.Any(x => x.Name.Equals("Admin")))
+                            {
+                                <li>@Html.ActionLink("Manage Users", "Index", "ManageUser")</li>
+                            }
+                            else
+                            {
+                                <p>no</p>
+
+                            }
                         }
-                        else
-                        {
-                            <p>no</p>
-                        }
+                        @*var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+                            // roleManager.Roles.
+                            if (System.Web.Security.Roles.Enabled)
+                            {
+                                <p>enabled</p>
+                            }
+                            if (Roles.IsUserInRole(User.Identity.GetUserName(), "Admin"))
+                            {
+                                <p>yes</p>
+                            }
+                            else
+                            {
+                                <p>no</p>
+                            }*@
                     }
-
-                    if(@User.IsInRole("Admin")){
-                    <li>@Html.ActionLink("Manage Users", "Index", "ManageUser")</li>
-
-                    }else{
-                    not amdin}
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
