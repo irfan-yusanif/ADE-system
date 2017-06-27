@@ -8,6 +8,14 @@ namespace ADE_ManagementSystem
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            // jQueryUI CSS
+            bundles.Add(new ScriptBundle("~/jqueryuiStyles").Include(
+                        "~/Content/themes/base/jquery-ui.min.css"));
+            // jQueryUI 
+            bundles.Add(new StyleBundle("~/bundles/jqueryui").Include(
+                        "~/Scripts/jquery-ui-1.12.1.min.js"));
+            
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
