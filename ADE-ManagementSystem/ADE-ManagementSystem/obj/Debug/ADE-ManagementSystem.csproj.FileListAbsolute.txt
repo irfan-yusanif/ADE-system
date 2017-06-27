@@ -152,7 +152,6 @@ C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-Mana
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\ADE-ManagementSystem.dll
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\ADE-ManagementSystem.pdb
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\Antlr3.Runtime.dll
-C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\AutoMapper.dll
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\EntityFramework.dll
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\EntityFramework.SqlServer.dll
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\Microsoft.AspNet.Identity.Core.dll
@@ -206,3 +205,4 @@ C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-Mana
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.dll
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.pdb
+C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.csprojResolveAssemblyReference.cache
