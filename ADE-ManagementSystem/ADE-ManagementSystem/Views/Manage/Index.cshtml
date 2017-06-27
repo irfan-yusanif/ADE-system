@@ -3,9 +3,11 @@
     ViewBag.Title = "User Profile";
 }
 
-<h2>User Profile</h2>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
+<div class="col-sm-offset-3">
+    <h2>User Profile</h2>
+
+    <p class="text-success">@ViewBag.StatusMessage</p>
+
     @Html.Action("Details")
 </div>

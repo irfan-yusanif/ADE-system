@@ -50,27 +50,13 @@
                             }
                             else
                             {
-                                <p>no</p>
+                                
                             }
                         }
                         else
                         {
                             
                         }
-                        @*var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
-                            // roleManager.Roles.
-                            if (System.Web.Security.Roles.Enabled)
-                            {
-                                <p>enabled</p>
-                            }
-                            if (Roles.IsUserInRole(User.Identity.GetUserName(), "Admin"))
-                            {
-                                <p>yes</p>
-                            }
-                            else
-                            {
-                                <p>no</p>
-                            }*@
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
