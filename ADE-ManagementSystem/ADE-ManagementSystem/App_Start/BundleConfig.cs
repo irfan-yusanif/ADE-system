@@ -32,7 +32,7 @@ namespace ADE_ManagementSystem
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.cosmo.min.css",
                       "~/Content/site.css"));
         }
     }
