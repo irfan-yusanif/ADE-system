@@ -136,6 +136,7 @@ C:\Users\Irfan Yusanif\Documents\GitHub\ADE-Management-System\ADE-ManagementSyst
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-Management-System\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.csprojResolveAssemblyReference.cache
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-Management-System\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.dll
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-Management-System\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.pdb
+C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.csprojResolveAssemblyReference.cache
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\roslyn\csc.exe
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -204,6 +205,5 @@ C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-Mana
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.csprojResolveAssemblyReference.cache
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.dll
 C:\Users\Irfan Yusanif\Documents\GitHub\ADE-system\ADE-ManagementSystem\ADE-ManagementSystem\obj\Debug\ADE-ManagementSystem.pdb
