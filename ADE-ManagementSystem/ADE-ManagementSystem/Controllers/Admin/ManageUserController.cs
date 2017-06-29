@@ -254,6 +254,52 @@ namespace ADE_ManagementSystem.Controllers.Admin
             return RedirectToAction("Index");
         }
 
+        // GET: /Manage/ChangePassword
+        public ActionResult ChangePassword(string id)
+        {
+            ViewBag.UserId = id;
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(ChangePasswordForAdminViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+
+            ApplicationUser user1 = await UserManager.FindByIdAsync(model.UserId);
+            if (user1 == null)
+            {
+              //  return NotFound();
+            }
+            user1.PasswordHash = UserManager.PasswordHasher.HashPassword(model.NewPassword);
+            var result1 = await UserManager.UpdateAsync(user1);
+            if (result1.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+
+            //var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            //if (result.Succeeded)
+            //{
+            //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            //    if (user != null)
+            //    {
+            //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            //    }
+            //    return RedirectToAction("Index");
+            //    //return RedirectToAction("Index", new { Message = ManageController.ManageMessageId.ChangePasswordSuccess });
+            //}
+            AddErrors(result1);
+            return View(model);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
