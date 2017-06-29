@@ -111,5 +111,21 @@
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <EntitySet Name="Tickets" EntityType="Model.Ticket" />
   </EntityContainer>
+  <EntityType Name="Ticket">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CurrentColumnName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NextColumnName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="DeleterUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="DeletionTime" Type="DateTime" Precision="3" />
+    <Property Name="LastModificationTime" Type="DateTime" Precision="3" />
+    <Property Name="LastModifierUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatorUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

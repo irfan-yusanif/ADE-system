@@ -63,6 +63,21 @@
     <Property Name="FullName" Type="nvarchar" MaxLength="256" />
     <Property Name="ImageExtension" Type="nchar" MaxLength="10" />
   </EntityType>
+  <EntityType Name="Ticket">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CurrentColumnName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NextColumnName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="DeleterUserId" Type="nvarchar" MaxLength="128" />
+    <Property Name="DeletionTime" Type="datetime" />
+    <Property Name="LastModificationTime" Type="datetime" />
+    <Property Name="LastModifierUserId" Type="nvarchar" MaxLength="128" />
+    <Property Name="CreationTime" Type="datetime" Nullable="false" />
+    <Property Name="CreatorUserId" Type="nvarchar" MaxLength="128" />
+  </EntityType>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -126,6 +141,7 @@
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />

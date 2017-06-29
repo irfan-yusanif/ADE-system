@@ -66,5 +66,21 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Tickets">
+      <EntityTypeMapping TypeName="Model.Ticket">
+        <MappingFragment StoreEntitySet="Ticket">
+          <ScalarProperty Name="CreatorUserId" ColumnName="CreatorUserId" />
+          <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+          <ScalarProperty Name="LastModifierUserId" ColumnName="LastModifierUserId" />
+          <ScalarProperty Name="LastModificationTime" ColumnName="LastModificationTime" />
+          <ScalarProperty Name="DeletionTime" ColumnName="DeletionTime" />
+          <ScalarProperty Name="DeleterUserId" ColumnName="DeleterUserId" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="NextColumnName" ColumnName="NextColumnName" />
+          <ScalarProperty Name="CurrentColumnName" ColumnName="CurrentColumnName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
