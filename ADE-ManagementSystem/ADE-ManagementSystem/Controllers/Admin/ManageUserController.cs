@@ -203,16 +203,20 @@ namespace ADE_ManagementSystem.Controllers.Admin
                     }).FirstOrDefault();
 
                 string oldRoleName = null;
-                if (query != null)
+                if (query != null && query.Role != null)
                 {
                     oldRoleName = query.Role.Name;
                 }
                 
                 var userIdentity = (ClaimsIdentity)User.Identity;
                 
-                if (oldRoleName != userViewModel.UserRole)
+                if (oldRoleName != null && oldRoleName != userViewModel.UserRole)
                 {
                     await UserManager.RemoveFromRoleAsync(aspNetUser.Id, oldRoleName);
+                    await UserManager.AddToRoleAsync(aspNetUser.Id, userViewModel.UserRole);
+                }
+                else if (oldRoleName == null)
+                {
                     await UserManager.AddToRoleAsync(aspNetUser.Id, userViewModel.UserRole);
                 }
                 db.Entry(aspNetUser).State = EntityState.Modified;
