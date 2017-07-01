@@ -12,6 +12,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ADE_ManagementSystem.Models;
+using ADE_ManagementSystem.Models.User;
+using AutoMapper;
 
 namespace ADE_ManagementSystem.Controllers
 {
@@ -85,7 +87,9 @@ namespace ADE_ManagementSystem.Controllers
             {
                 return HttpNotFound();
             }
-            return View("User/Edit",aspNetUser);
+            UserViewModel userViewModel = Mapper.Map<UserViewModel>(aspNetUser);
+
+            return View("User/Edit",userViewModel);
         }
 
         // POST: ManageUser/Edit/5
@@ -93,14 +97,19 @@ namespace ADE_ManagementSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FullName,ImageExtension")] AspNetUser aspNetUser)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FullName,ImageExtension")] UserViewModel aspNetUser)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(aspNetUser).State = EntityState.Modified;
+                aspNetUser.UserName = aspNetUser.Email;
+                AspNetUser user = Mapper.Map<AspNetUser>(aspNetUser);
+
+                db.Entry(user).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+          //  UserViewModel userViewModel = Mapper.Map<UserViewModel>(aspNetUser);
+
             return View("User/Edit",aspNetUser);
         }
 

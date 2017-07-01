@@ -181,7 +181,7 @@ namespace ADE_ManagementSystem.Controllers.Admin
             {
                 userViewModel.UserRole = userRole.Name;
             }
-            return View(userViewModel);
+            return View("Edit",userViewModel);
         }
 
         // POST: ManageUser/Edit/5
@@ -199,11 +199,20 @@ namespace ADE_ManagementSystem.Controllers.Admin
                     where user.Id == userViewModel.Id
                     select new
                     {
+                       // User = user,
                         Role = user.AspNetRoles.FirstOrDefault()
                     }).FirstOrDefault();
 
+                //https://stackoverflow.com/questions/25570025/net-identity-email-username-change
+
+                //if (query?.User != null && query.User.Email != userViewModel.Email)
+                //{
+               
+                //}
+
+
                 string oldRoleName = null;
-                if (query != null && query.Role != null)
+                if (query?.Role != null)//query != null && query.Role != null
                 {
                     oldRoleName = query.Role.Name;
                 }
@@ -222,6 +231,14 @@ namespace ADE_ManagementSystem.Controllers.Admin
                 db.Entry(aspNetUser).State = EntityState.Modified;
 
                 await db.SaveChangesAsync();
+
+                //var store = new UserStore<ApplicationUser>(new DbContext());
+                //var manager = new UserManager<>();
+
+                ApplicationUser applicationUser = await UserManager.FindByIdAsync(userViewModel.Id);
+                applicationUser.Email = userViewModel.Email;
+                applicationUser.UserName = userViewModel.Email;
+                IdentityResult result = await UserManager.UpdateAsync(applicationUser);
 
                 return RedirectToAction("Index");
             }

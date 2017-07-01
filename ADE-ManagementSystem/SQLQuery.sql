@@ -1,0 +1,1 @@
+﻿select * from AspNetUsers where Id = '8da7ba1a-9ef6-4d87-8ca3-726e0ddcee85'
