@@ -63,3 +63,5 @@ Temporary Items
 # Ignore other intermediate files that NuGet might create
 project.lock.json
 *.nuget.props
+/ADE-ManagementSystem/ADE-ManagementSystem/bin
+/ADE-ManagementSystem/ADE-ManagementSystem/obj/Debug

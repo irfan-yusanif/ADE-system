@@ -181,7 +181,7 @@ namespace ADE_ManagementSystem.Controllers.Admin
             {
                 userViewModel.UserRole = userRole.Name;
             }
-            return View(userViewModel);
+            return View("Edit",userViewModel);
         }
 
         // POST: ManageUser/Edit/5
@@ -199,25 +199,46 @@ namespace ADE_ManagementSystem.Controllers.Admin
                     where user.Id == userViewModel.Id
                     select new
                     {
+                       // User = user,
                         Role = user.AspNetRoles.FirstOrDefault()
                     }).FirstOrDefault();
 
+                //https://stackoverflow.com/questions/25570025/net-identity-email-username-change
+
+                //if (query?.User != null && query.User.Email != userViewModel.Email)
+                //{
+               
+                //}
+
+
                 string oldRoleName = null;
-                if (query != null)
+                if (query?.Role != null)//query != null && query.Role != null
                 {
                     oldRoleName = query.Role.Name;
                 }
                 
                 var userIdentity = (ClaimsIdentity)User.Identity;
                 
-                if (oldRoleName != userViewModel.UserRole)
+                if (oldRoleName != null && oldRoleName != userViewModel.UserRole)
                 {
                     await UserManager.RemoveFromRoleAsync(aspNetUser.Id, oldRoleName);
+                    await UserManager.AddToRoleAsync(aspNetUser.Id, userViewModel.UserRole);
+                }
+                else if (oldRoleName == null)
+                {
                     await UserManager.AddToRoleAsync(aspNetUser.Id, userViewModel.UserRole);
                 }
                 db.Entry(aspNetUser).State = EntityState.Modified;
 
                 await db.SaveChangesAsync();
+
+                //var store = new UserStore<ApplicationUser>(new DbContext());
+                //var manager = new UserManager<>();
+
+                ApplicationUser applicationUser = await UserManager.FindByIdAsync(userViewModel.Id);
+                applicationUser.Email = userViewModel.Email;
+                applicationUser.UserName = userViewModel.Email;
+                IdentityResult result = await UserManager.UpdateAsync(applicationUser);
 
                 return RedirectToAction("Index");
             }
@@ -248,6 +269,52 @@ namespace ADE_ManagementSystem.Controllers.Admin
             db.AspNetUsers.Remove(aspNetUser);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        // GET: /Manage/ChangePassword
+        public ActionResult ChangePassword(string id)
+        {
+            ViewBag.UserId = id;
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(ChangePasswordForAdminViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+
+            ApplicationUser user1 = await UserManager.FindByIdAsync(model.UserId);
+            if (user1 == null)
+            {
+              //  return NotFound();
+            }
+            user1.PasswordHash = UserManager.PasswordHasher.HashPassword(model.NewPassword);
+            var result1 = await UserManager.UpdateAsync(user1);
+            if (result1.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+
+            //var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            //if (result.Succeeded)
+            //{
+            //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            //    if (user != null)
+            //    {
+            //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            //    }
+            //    return RedirectToAction("Index");
+            //    //return RedirectToAction("Index", new { Message = ManageController.ManageMessageId.ChangePasswordSuccess });
+            //}
+            AddErrors(result1);
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

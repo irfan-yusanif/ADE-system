@@ -5,7 +5,7 @@
 }
 
 <div class="row">
-    <div class="col-sm-offset-3">
+    <div class="col-sm-offset-3 col-xs-9">
 
         <h2>@ViewBag.Title.</h2>
         <div class="row">
@@ -14,7 +14,7 @@
                     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
             @Html.AntiForgeryToken()
-            <hr />
+                        <br/>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+                <div class="col-xs-offset-1 col-md-offset-3 col-md-10">
                     <div class="checkbox">
                         @Html.CheckBoxFor(m => m.RememberMe)
                         @Html.LabelFor(m => m.RememberMe)
