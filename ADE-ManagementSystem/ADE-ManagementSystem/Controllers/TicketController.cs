@@ -29,13 +29,12 @@ namespace ADE_ManagementSystem.Controllers
                     return Json(new ResponseResultWithEntityViewModel<List<Ticket>>
                     {
                         Entity = list
-                    }.Succeed());
+                    }.Succeed(), JsonRequestBehavior.AllowGet);
                 }
-                
             }
             catch (Exception e)
             {
-                return Json(new ResponseResultViewModel(e.Message).Failure());
+                return Json(new ResponseResultViewModel(e.Message).Failure(), JsonRequestBehavior.AllowGet);
             }
         }
     }

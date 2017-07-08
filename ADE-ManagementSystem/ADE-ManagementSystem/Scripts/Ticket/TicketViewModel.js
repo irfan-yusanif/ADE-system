@@ -1,7 +1,11 @@
-﻿var TicketsViewModel = function () {
+﻿var ticketVM;
+
+var TicketsViewModel = function () {
     var self = this;
-    self.Tickets = ko.observableArray([new TicketModel()]);
-    self.ResponseStatus = ko.observable();
+    self.Tickets = ko.observableArray();
+    self.ToDoTickets = ko.observableArray();
+    self.InProgressTickets = ko.observableArray();
+    self.ResponseStatus = ko.observable("abc");
     self.ErrorMessage = ko.observable();
 
     self.Initialize = function () {
@@ -15,20 +19,28 @@
                 if (response.Success) {
                     
                     if (response.Entity != null) {
-                        var tags = $.map(response.Entity, function (item) {
 
-                            // return new Tag1(item);
-                        });
-                        self.showTags(tags);
+                        ko.mapping.fromJS(response.Entity, TicketModel, self.Tickets);
+                       // ko.mapping.fromJS(response.Entity, {}, self.Tickets); also works
+
+                        //var ticketObjectsList = $.map(response.Entity, function (item) {
+                        //    ko.mapping.fromJS(response.Entity, {
+                        //        key: function (data) {
+                        //            return ko.utils.unwrapObservable(data.id);
+                        //        }
+                        //    },TicketModel);
+                        //    //return new TicketModel();
+                        //});
+                        //self.Tickets(ticketObjectsList);
                     }
 
-                    $.each((self.showBidings()), function (i, item) {
-                        if (item.postedById == $loginUserId) {
-                            isalreadybid = true;
-                        }
-                    });
+                    //$.each((self.showBidings()), function (i, item) {
+                    //    if (item.postedById == $loginUserId) {
+                    //        isalreadybid = true;
+                    //    }
+                    //});
 
-                    self.showBidings.push(new Biding(data));
+                    //self.showBidings.push(new Biding(data));
 
                 } else {
                     toastr.error("Error while loading tickets!");
@@ -42,13 +54,28 @@
                 //        return new TitleModel(options.data.Id, options.data.Name);
                 //    }
                 //}, clientInfoVm.Titles);
-               
+                self.CategorizeTickets();
+
                 $.unblockUI();
             },
-            error: function () {
+            error: function (response) {
+                $.unblockUI();
                 toastr.error("Some Error Occurred");
+                console.log(response.responseText);
             }
         });
     }
+
+    self.CategorizeTickets = function () {
+        $.each((self.Tickets()), function (i, ticket) {
+            if (ticket.CurrentColumnName() == "ToDo") {
+                self.ToDoTickets.push(ticket);
+            } else if (ticket.CurrentColumnName() == "InProgress") {
+                self.InProgressTickets.push(ticket);
+            }
+        });
+    }
+
+    self.Initialize();
 
 }

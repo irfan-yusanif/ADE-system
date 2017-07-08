@@ -72,7 +72,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CurrentColumnName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="NextColumnName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -82,6 +82,7 @@
           <Property Name="LastModifierUserId" Type="nvarchar" MaxLength="128" />
           <Property Name="CreationTime" Type="datetime" Nullable="false" />
           <Property Name="CreatorUserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -285,7 +286,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CurrentColumnName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NextColumnName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
@@ -295,6 +296,7 @@
           <Property Name="LastModifierUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatorUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -370,6 +372,7 @@
           <EntitySetMapping Name="Tickets">
             <EntityTypeMapping TypeName="Model.Ticket">
               <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="CreatorUserId" ColumnName="CreatorUserId" />
                 <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
                 <ScalarProperty Name="LastModifierUserId" ColumnName="LastModifierUserId" />

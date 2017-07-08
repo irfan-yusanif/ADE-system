@@ -14,7 +14,7 @@ namespace ADE_ManagementSystem.Models
     
     public partial class Ticket
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string CurrentColumnName { get; set; }
         public string NextColumnName { get; set; }
         public bool IsDeleted { get; set; }
@@ -24,5 +24,6 @@ namespace ADE_ManagementSystem.Models
         public string LastModifierUserId { get; set; }
         public System.DateTime CreationTime { get; set; }
         public string CreatorUserId { get; set; }
+        public string Title { get; set; }
     }
 }

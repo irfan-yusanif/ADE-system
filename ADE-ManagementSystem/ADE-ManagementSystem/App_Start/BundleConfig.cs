@@ -30,10 +30,22 @@ namespace ADE_ManagementSystem
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
-
+            
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.cosmo.min.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/KnockoutWithMappingPlugin").Include(
+                      "~/Scripts/knockout-3.4.2.js",
+                      "~/Scripts/knockout.mapping-latest.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/blockUI").Include(
+                      "~/Scripts/jquery.blockUI.js"));
+
+            bundles.Add(new ScriptBundle("~/toastrStyles").Include(
+                        "~/Content/toastr.min.css"));
+            bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
+                      "~/Scripts/toastr.min.js"));
         }
     }
 }

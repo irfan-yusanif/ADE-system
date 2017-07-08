@@ -3,7 +3,7 @@
     self.Id = ko.observable();
     self.CurrentColumnName = ko.observable();
     self.NextColumnName = ko.observable();
-
+    self.Title = ko.observable();
 
     self.IsDeleted = ko.observable();
     self.DeleterUserId = ko.observable();
